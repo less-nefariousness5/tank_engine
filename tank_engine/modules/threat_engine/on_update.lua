@@ -1,4 +1,8 @@
 -- Threat Engine Update Logic
+---@type color
+local color = require("common/color")
+---@type vec2
+local vec2 = require("common/geometry/vector_2")
 
 -- Fast update for critical operations
 function TE.modules.threat_engine.on_fast_update()
@@ -44,7 +48,7 @@ function TE.modules.threat_engine.on_fast_update()
 end
 
 -- Normal update for less time-critical operations
-function TE.modules.threat_engine.on_update()
+function TE.modules.threat_engine.on_normal_update()
     -- Track combat state changes
     local is_in_combat = TE.variables.me:is_in_combat()
     
@@ -169,3 +173,4 @@ function TE.modules.threat_engine.check_for_offtank()
         end
     end
 end
+

@@ -1,8 +1,9 @@
 -- Wigs Engine Menu
 -- UI elements for BigWigs/LittleWigs integration
-
 ---@type color
 local color = require("common/color")
+---@type vec2
+local vec2 = require("common/geometry/vector_2")
 
 -- Create menu elements if they don't exist yet
 if not TE.modules.wigs_engine.menu then
@@ -54,10 +55,14 @@ function TE.modules.wigs_engine.menu.on_render_menu()
         end
         
         -- Development status
-        core.menu.add_separator(0, 0, 10, 0)
+        local gui_window = core.menu.window("wigs_engine_window")
+        gui_window:add_separator(0, 0, 10, 0, color.gray(150))
         local status_header = core.menu.header()
         status_header:render("Development Status", color.orange())
-        core.menu.add_text("This module is partially implemented.", color.orange())
-        core.menu.add_text("Some features may not be available yet.", color.white())
+        local dynamic = gui_window:get_current_context_dynamic_drawing_offset()
+        gui_window:render_text(1, vec2.new(dynamic.x, dynamic.y), color.orange(), "This module is partially implemented.")
+        gui_window:set_current_context_dynamic_drawing_offset(vec2.new(dynamic.x, dynamic.y + 20))
+        gui_window:render_text(1, vec2.new(dynamic.x, dynamic.y), color.white(), "Some features may not be available yet.")
     end)
 end
+

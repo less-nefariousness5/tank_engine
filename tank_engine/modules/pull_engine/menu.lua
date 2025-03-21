@@ -1,14 +1,15 @@
 -- Pull Engine Menu
 -- UI elements for Pull Engine configuration
-
 ---@type color
 local color = require("common/color")
+---@type vec2
+local vec2 = require("common/geometry/vector_2")
 
 -- Pull Engine menu render function
 function TE.modules.pull_engine.menu.on_render_menu()
     TE.modules.pull_engine.menu.main_tree:render("Pull Engine", function()
         -- Automation settings
-        TE.menu.render_header(nil, "Automation Settings")
+        TE.menu.render_header(core.menu.window("pull_engine_window"), "Automation Settings")
         
         TE.modules.pull_engine.menu.auto_pull:render(
             "Auto Pull",
@@ -30,7 +31,7 @@ function TE.modules.pull_engine.menu.on_render_menu()
         )
         
         -- Pull size settings
-        TE.menu.render_header(nil, "Pull Configuration")
+        TE.menu.render_header(core.menu.window("pull_engine_window"), "Pull Configuration")
         
         TE.modules.pull_engine.menu.pull_size:render(
             "Pull Size",
@@ -53,7 +54,7 @@ function TE.modules.pull_engine.menu.on_render_menu()
         )
         
         -- Advanced settings
-        TE.menu.render_header(nil, "Advanced Settings")
+        TE.menu.render_header(core.menu.window("pull_engine_window"), "Advanced Settings")
         
         TE.modules.pull_engine.menu.use_los_pulling:render(
             "Use LoS Pulling",
@@ -66,7 +67,7 @@ function TE.modules.pull_engine.menu.on_render_menu()
         )
         
         -- Display settings
-        TE.menu.render_header(nil, "Display Settings")
+        TE.menu.render_header(core.menu.window("pull_engine_window"), "Display Settings")
         
         TE.modules.pull_engine.menu.show_pull_planning:render(
             "Show Pull Planning",
@@ -75,7 +76,7 @@ function TE.modules.pull_engine.menu.on_render_menu()
         
         -- Debug information if appropriate
         if TE.settings.is_enabled() then
-            TE.menu.render_header(nil, "Debug Information")
+            TE.menu.render_header(core.menu.window("pull_engine_window"), "Debug Information")
             
             -- Current pull status
             local pull_status = TE.modules.pull_engine.current_pull.in_progress 
@@ -239,3 +240,4 @@ function TE.modules.pull_engine.on_render()
         end
     end
 end
+

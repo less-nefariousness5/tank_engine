@@ -20,8 +20,13 @@ if not TE.modules.defensive_engine then
     }
 end
 
--- Update function called every frame
-function TE.modules.defensive_engine.on_update()
+-- Load module files
+require("modules/defensive_engine/menu")
+require("modules/defensive_engine/on_update")
+
+-- Update function called every frame (duplicate)
+-- Remove the duplicate function definition and use the existing one from index.lua
+function TE.modules.defensive_engine.on_index_update()
     local me = core.object_manager.get_local_player()
     if not me or not me:is_valid() or not me:is_in_combat() then
         return
@@ -96,6 +101,7 @@ end
 
 -- Module interface for main system
 return {
-    on_update = TE.modules.defensive_engine.on_update,
+    on_update = TE.modules.defensive_engine.on_index_update,
     on_render_menu = TE.modules.defensive_engine.menu.on_render_menu
 }
+

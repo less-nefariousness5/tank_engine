@@ -1,14 +1,15 @@
 -- Interrupt Engine Menu
 -- UI elements for Interrupt Engine configuration
-
 ---@type color
 local color = require("common/color")
+---@type vec2
+local vec2 = require("common/geometry/vector_2")
 
 -- Interrupt Engine menu render function
 function TE.modules.interrupt_engine.menu.on_render_menu()
     TE.modules.interrupt_engine.menu.main_tree:render("Interrupt Engine", function()
         -- Automation settings
-        TE.menu.render_header(nil, "Automation Settings")
+        TE.menu.render_header(core.menu.window("interrupt_engine_window"), "Automation Settings")
         
         TE.modules.interrupt_engine.menu.auto_interrupt:render(
             "Auto Interrupt",
@@ -26,7 +27,7 @@ function TE.modules.interrupt_engine.menu.on_render_menu()
         )
         
         -- Threshold settings
-        TE.menu.render_header(nil, "Threshold Settings")
+        TE.menu.render_header(core.menu.window("interrupt_engine_window"), "Threshold Settings")
         
         TE.modules.interrupt_engine.menu.priority_threshold:render(
             "Interrupt Priority Threshold",
@@ -49,7 +50,7 @@ function TE.modules.interrupt_engine.menu.on_render_menu()
         )
         
         -- Display settings
-        TE.menu.render_header(nil, "Display Settings")
+        TE.menu.render_header(core.menu.window("interrupt_engine_window"), "Display Settings")
         
         TE.modules.interrupt_engine.menu.show_cast_warnings:render(
             "Show Cast Warnings",
@@ -58,7 +59,7 @@ function TE.modules.interrupt_engine.menu.on_render_menu()
         
         -- Debug information if appropriate
         if TE.settings.is_enabled() then
-            TE.menu.render_header(nil, "Debug Information")
+            TE.menu.render_header(core.menu.window("interrupt_engine_window"), "Debug Information")
             
             -- Count current interrupt targets
             local interrupt_count = 0
@@ -174,3 +175,4 @@ function TE.modules.interrupt_engine.on_render()
         end
     end
 end
+

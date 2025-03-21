@@ -401,6 +401,7 @@ function TE.modules.pull_engine.execute_los_pull(target)
         core.input.set_target(target)
         
         -- Use movement handler to move to LOS position
+        TE.api.movement_handler:pause_movement()
         TE.api.movement_handler:move_to_position(los_position)
         
         -- Movement handler will handle the rest
@@ -426,6 +427,7 @@ function TE.modules.pull_engine.execute_direct_pull(target)
     else
         -- Move to target
         local target_position = target:get_position()
+        TE.api.movement_handler:pause_movement()
         TE.api.movement_handler:move_to_position(target_position)
     end
 end
@@ -466,4 +468,7 @@ return {
     on_fast_update = TE.modules.pull_engine.on_fast_update,
     on_render_menu = TE.modules.pull_engine.menu.on_render_menu,
     on_render = TE.modules.pull_engine.on_render,
+    on_render_3d = TE.modules.pull_engine.on_render_3d,
 }
+
+

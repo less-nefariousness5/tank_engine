@@ -18,52 +18,9 @@ if not TE.modules.threat_engine then
     }
 end
 
--- Update function called every frame
-function TE.modules.threat_engine.on_update()
-    local me = core.object_manager.get_local_player()
-    if not me or not me:is_valid() or not me:is_in_combat() then
-        return
-    end
-    
-    -- Get current target
-    local target = me:get_target()
-    if not target or not target:is_valid() or target:is_dead() then
-        return
-    end
-    
-    -- Get threat situation
-    local threat_status = me:get_threat_situation(target)
-    if not threat_status then
-        return
-    end
-    
-    -- Store threat data
-    TE.modules.threat_engine.targets[target] = {
-        threat_percent = threat_status.threat_percent,
-        is_tanking = threat_status.is_tanking,
-        status = threat_status.status,
-        last_update = core.game_time()
-    }
-    
-    -- Check threat thresholds
-    local warning_threshold = TE.modules.threat_engine.menu.warning_threshold:get()
-    local taunt_threshold = TE.modules.threat_engine.menu.taunt_threshold:get()
-    
-    if TE.modules.threat_engine.menu.show_threat_warnings:get_state() then
-        if not threat_status.is_tanking and threat_status.threat_percent > warning_threshold then
-            core.log("Warning: High threat on " .. target:get_name() .. " (" .. math.floor(threat_status.threat_percent) .. "%)")
-        end
-    end
-    
-    -- Auto taunt logic
-    if TE.modules.threat_engine.menu.auto_taunt:get_state() then
-        -- This would require checking for taunt ability availability and using it
-        -- Simplified version for now just logs the need to taunt
-        if not threat_status.is_tanking and threat_status.threat_percent > taunt_threshold then
-            core.log("Tank Engine: Should taunt " .. target:get_name() .. " now!")
-        end
-    end
-end
+-- Load module files
+require("modules/threat_engine/menu")
+require("modules/threat_engine/on_update")
 
 -- Menu render function
 function TE.modules.threat_engine.menu.on_render_menu()
@@ -77,6 +34,7 @@ end
 
 -- Module interface for main system
 return {
-    on_update = TE.modules.threat_engine.on_update,
+    on_update = TE.modules.threat_engine.on_index_update,
     on_render_menu = TE.modules.threat_engine.menu.on_render_menu
 }
+

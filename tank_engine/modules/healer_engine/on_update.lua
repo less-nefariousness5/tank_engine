@@ -1,4 +1,8 @@
 -- Healer Engine Update Logic
+---@type color
+local color = require("common/color")
+---@type vec2
+local vec2 = require("common/geometry/vector_2")
 
 -- Fast update for critical operations (called every frame)
 function TE.modules.healer_engine.on_fast_update()
@@ -11,7 +15,7 @@ function TE.modules.healer_engine.on_fast_update()
 end
 
 -- Normal update for less time-critical operations
-function TE.modules.healer_engine.on_update()
+function TE.modules.healer_engine.on_normal_update()
     if not TE.settings.is_enabled() then
         return
     end
@@ -92,3 +96,4 @@ function TE.modules.healer_engine.on_render()
         end
     end
 end
+

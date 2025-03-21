@@ -355,4 +355,5 @@ return {
     on_fast_update = TE.modules.interrupt_engine.on_fast_update,
     on_render_menu = TE.modules.interrupt_engine.menu.on_render_menu,
     on_render = TE.modules.interrupt_engine.on_render,
+    on_render_3d = TE.modules.interrupt_engine.on_render_3d,
 }

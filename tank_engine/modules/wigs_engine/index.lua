@@ -116,8 +116,9 @@ end
 
 -- Module interface for core system
 return {
-    on_update = TE.modules.wigs_engine.on_update,
+    on_update = TE.modules.wigs_engine.on_normal_update,
     on_fast_update = nil, -- No need for fast updates
     on_render_menu = TE.modules.wigs_engine.menu.on_render_menu,
     on_render = TE.modules.wigs_engine.on_render,
 }
+

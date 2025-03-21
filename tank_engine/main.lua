@@ -4,10 +4,10 @@
 ---@type enums
 local enums = require("common/enums")
 
--- Initialize with a simple log
-core.log("Tank Engine v" .. TE.version:toString() .. " loaded successfully!")
+---@type color
+local color = require("common/color")
 
--- Define TE namespace for our internal use (moved above menu initialization)
+-- Define TE namespace for our internal use
 TE = {
     version = {
         major = 1,
@@ -20,6 +20,9 @@ TE = {
     modules = {},
     loaded_modules = {}
 }
+
+-- Initialize with a simple log
+core.log("Tank Engine v" .. TE.version:toString() .. " loaded successfully!")
 
 -- Menu elements will be defined in core/menu.lua
 
@@ -45,7 +48,7 @@ local function load_core_modules()
 end
 
 -- Create a stub module with WIP tag
-function create_stub_module(module_name)
+local function create_stub_module(module_name)
     -- Create the module namespace if it doesn't exist
     if not TE.modules[module_name] then
         TE.modules[module_name] = {
@@ -73,9 +76,10 @@ function create_stub_module(module_name)
             header:render("Work In Progress", yellow_color)
             
             -- Create description
-            core.menu.add_text("This module is not yet implemented.", yellow_color)
-            core.menu.add_text("It will be available in a future update.", color.white())
-            core.menu.add_separator(0, 0, 5, 0)
+            local gui_window = core.menu.window("stub_module_window")
+            gui_window:render_text(1, gui_window:get_current_context_dynamic_drawing_offset(), yellow_color, "This module is not yet implemented.")
+            gui_window:render_text(1, gui_window:get_current_context_dynamic_drawing_offset(), color.white(), "It will be available in a future update.")
+            gui_window:add_separator(5, 5, 0, 0, color.white(200))
             
             -- Module description
             local descriptions = {
@@ -93,7 +97,8 @@ function create_stub_module(module_name)
             
             -- Display description if available
             if descriptions[module_name] then
-                core.menu.add_text("Purpose: " .. descriptions[module_name], color.cyan())
+                local gui_window = core.menu.window("stub_module_window")
+                gui_window:render_text(1, gui_window:get_current_context_dynamic_drawing_offset(), color.cyan(), "Purpose: " .. descriptions[module_name])
             end
         end)
     end
@@ -116,7 +121,7 @@ function create_stub_module(module_name)
 end
 
 -- Create a partial module with WIP tag but showing it's partially implemented
-function create_partial_module(module_name)
+local function create_partial_module(module_name)
     -- Create the module namespace if it doesn't exist
     if not TE.modules[module_name] then
         TE.modules[module_name] = {
@@ -144,9 +149,10 @@ function create_partial_module(module_name)
             header:render("Partially Implemented", orange_color)
             
             -- Create description
-            core.menu.add_text("This module is partially implemented.", orange_color)
-            core.menu.add_text("Some features may not be available yet.", color.white())
-            core.menu.add_separator(0, 0, 5, 0)
+            local gui_window = core.menu.window("stub_module_window")
+            gui_window:render_text(1, gui_window:get_current_context_dynamic_drawing_offset(), orange_color, "This module is partially implemented.")
+            gui_window:render_text(1, gui_window:get_current_context_dynamic_drawing_offset(), color.white(), "Some features may not be available yet.")
+            gui_window:add_separator(5, 5, 0, 0, color.white(200))
             
             -- Module description
             local descriptions = {
@@ -156,7 +162,8 @@ function create_partial_module(module_name)
             
             -- Display description if available
             if descriptions[module_name] then
-                core.menu.add_text("Purpose: " .. descriptions[module_name], color.cyan())
+                local gui_window = core.menu.window("stub_module_window")
+                gui_window:render_text(1, gui_window:get_current_context_dynamic_drawing_offset(), color.cyan(), "Purpose: " .. descriptions[module_name])
             end
         end)
     end
@@ -238,9 +245,35 @@ local function load_engine_modules()
     end
 end
 
+-- Load class-specific modules
+local function load_class_modules()
+    -- Check for available class modules
+    local class_modules = {
+        "classes/warrior/index"
+        -- Add other classes as they're implemented
+    }
+    
+    -- Load available class modules
+    for _, module_path in ipairs(class_modules) do
+        local success, class_module = pcall(require, module_path)
+        if success and class_module then
+            local active_spec = class_module()
+            if active_spec then
+                TE.active_class = active_spec
+                core.log("Loaded class module: " .. module_path)
+            else
+                core.log("Class module loaded but no active specialization found: " .. module_path)
+            end
+        else
+            core.log("Failed to load class module: " .. module_path)
+        end
+    end
+end
+
 -- Load modules
 load_core_modules()
 load_engine_modules()
+load_class_modules()
 
 -- Main update function
 local function on_update()
@@ -309,3 +342,15 @@ end
 -- Register callbacks
 core.register_on_update_callback(on_update)
 core.register_on_render_menu_callback(on_render_menu)
+
+
+
+
+
+
+
+
+
+
+
+

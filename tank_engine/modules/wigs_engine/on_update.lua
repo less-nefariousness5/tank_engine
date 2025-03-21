@@ -1,5 +1,9 @@
 -- Wigs Engine Update Logic
 -- Integrates with BigWigs/LittleWigs timers for boss ability optimization
+---@type color
+local color = require("common/color")
+---@type vec2
+local vec2 = require("common/geometry/vector_2")
 
 -- Fast update for critical operations (called every frame)
 function TE.modules.wigs_engine.on_fast_update()
@@ -12,7 +16,7 @@ function TE.modules.wigs_engine.on_fast_update()
 end
 
 -- Normal update for less time-critical operations
-function TE.modules.wigs_engine.on_update()
+function TE.modules.wigs_engine.on_normal_update()
     if not TE.settings.is_enabled() then
         return
     end
@@ -132,3 +136,4 @@ function TE.modules.wigs_engine.on_render()
         y_pos = y_pos + 20
     end
 end
+

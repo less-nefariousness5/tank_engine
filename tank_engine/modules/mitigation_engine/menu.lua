@@ -1,14 +1,15 @@
 -- Mitigation Engine Menu
 -- UI elements for Mitigation Engine configuration
-
 ---@type color
 local color = require("common/color")
+---@type vec2
+local vec2 = require("common/geometry/vector_2")
 
 -- Mitigation Engine menu render function
 function TE.modules.mitigation_engine.menu.on_render_menu()
     TE.modules.mitigation_engine.menu.main_tree:render("Mitigation Engine", function()
         -- Automation settings
-        TE.menu.render_header(nil, "Automation Settings")
+        TE.menu.render_header(core.menu.window("mitigation_engine_window"), "Automation Settings")
         
         TE.modules.mitigation_engine.menu.auto_mitigation:render(
             "Auto Active Mitigation",
@@ -21,7 +22,7 @@ function TE.modules.mitigation_engine.menu.on_render_menu()
         )
         
         -- Threshold settings
-        TE.menu.render_header(nil, "Threshold Settings")
+        TE.menu.render_header(core.menu.window("mitigation_engine_window"), "Threshold Settings")
         
         TE.modules.mitigation_engine.menu.min_resource:render(
             "Minimum Resource (%)",
@@ -34,7 +35,7 @@ function TE.modules.mitigation_engine.menu.on_render_menu()
         )
         
         -- Display settings
-        TE.menu.render_header(nil, "Display Settings")
+        TE.menu.render_header(core.menu.window("mitigation_engine_window"), "Display Settings")
         
         TE.modules.mitigation_engine.menu.show_gaps:render(
             "Show Mitigation Gaps",
@@ -48,7 +49,7 @@ function TE.modules.mitigation_engine.menu.on_render_menu()
         
         -- Debug information if appropriate
         if TE.settings.is_enabled() then
-            TE.menu.render_header(nil, "Debug Information")
+            TE.menu.render_header(core.menu.window("mitigation_engine_window"), "Debug Information")
             
             -- Current mitigation status
             local is_active = TE.variables.active_mitigation.is_active
@@ -153,3 +154,5 @@ function TE.modules.mitigation_engine.on_render()
                              16, uptime_color, true)
     end
 end
+
+

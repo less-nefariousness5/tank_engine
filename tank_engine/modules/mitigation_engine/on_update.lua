@@ -1,4 +1,8 @@
 -- Mitigation Engine Update Logic
+---@type color
+local color = require("common/color")
+---@type vec2
+local vec2 = require("common/geometry/vector_2")
 
 -- Fast update for critical operations (called every frame)
 function TE.modules.mitigation_engine.on_fast_update()
@@ -51,7 +55,7 @@ function TE.modules.mitigation_engine.on_fast_update()
 end
 
 -- Normal update for less time-critical operations
-function TE.modules.mitigation_engine.on_update()
+function TE.modules.mitigation_engine.on_normal_update()
     -- Track combat state changes
     local is_in_combat = TE.variables.me:is_in_combat()
     
@@ -76,7 +80,7 @@ function TE.modules.mitigation_engine.on_update()
     if TE.modules.mitigation_engine.menu.auto_mitigation:get_state() then
         local spell_id, reason = TE.modules.mitigation_engine.get_optimal_mitigation_ability()
         if spell_id then
-            TE.modules.mitigation_engine.use_mitigation_ability(spell_id, reason)
+            TE.modules.mitigation_engine.use_mitigation_ability(spell_id, reason or "Auto mitigation")
         end
     end
     
@@ -178,3 +182,4 @@ function TE.modules.mitigation_engine.cleanup_stale_data()
     end
     TE.modules.mitigation_engine.mitigation_gaps = valid_gaps
 end
+

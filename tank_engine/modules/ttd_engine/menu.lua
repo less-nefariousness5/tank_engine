@@ -1,14 +1,15 @@
 -- TTD Engine Menu
 -- UI elements for TTD Engine configuration
-
 ---@type color
 local color = require("common/color")
+---@type vec2
+local vec2 = require("common/geometry/vector_2")
 
 -- TTD Engine menu render function
 function TE.modules.ttd_engine.menu.on_render_menu()
     TE.modules.ttd_engine.menu.main_tree:render("Time-To-Death Engine", function()
         -- Calculation settings
-        TE.menu.render_header(nil, "TTD Calculation Settings")
+        TE.menu.render_header(core.menu.window("ttd_engine_window"), "TTD Calculation Settings")
         
         TE.modules.ttd_engine.menu.min_combat_time:render(
             "Minimum Combat Time (s)",
@@ -26,7 +27,7 @@ function TE.modules.ttd_engine.menu.on_render_menu()
         )
         
         -- Display settings
-        TE.menu.render_header(nil, "Display Settings")
+        TE.menu.render_header(core.menu.window("ttd_engine_window"), "Display Settings")
         
         TE.modules.ttd_engine.menu.show_ttd_values:render(
             "Show TTD Values",
@@ -53,7 +54,7 @@ function TE.modules.ttd_engine.menu.on_render_menu()
             end
             
             -- Window position settings
-            TE.menu.render_header(nil, "Window Position")
+            TE.menu.render_header(core.menu.window("ttd_engine_window"), "Window Position")
             
             TE.modules.ttd_engine.menu.window_x_position:render(
                 "Window X Position",
@@ -78,7 +79,7 @@ function TE.modules.ttd_engine.menu.on_render_menu()
                 end
             end
             
-            TE.menu.render_header(nil, "Debug Information")
+            TE.menu.render_header(core.menu.window("ttd_engine_window"), "Debug Information")
             core.graphics.text_2d("Active TTD Values: " .. active_ttd_values, 
                                  vec2.new(400, TE.menu.window_style.padding.y + 350),
                                  14, color.gray(200), true)
@@ -128,3 +129,5 @@ function TE.modules.ttd_engine.on_render()
         TE.modules.ttd_engine.render_ttd_window()
     end
 end
+
+

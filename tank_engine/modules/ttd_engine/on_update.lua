@@ -42,7 +42,7 @@ function TE.modules.ttd_engine.on_fast_update()
 end
 
 -- Normal update for less time-critical operations
-function TE.modules.ttd_engine.on_update()
+function TE.modules.ttd_engine.on_normal_update()
     -- Track combat state changes
     local is_in_combat = TE.variables.me:is_in_combat()
     
